@@ -2,6 +2,7 @@ package com.example.xportfolio.service;
 
 
 import com.example.xportfolio.command.AddressCommand;
+import com.example.xportfolio.command.ContactCommand;
 import com.example.xportfolio.command.WriterCommand;
 import com.example.xportfolio.dto.WriterDto;
 import com.example.xportfolio.mapper.WriterMapper;
@@ -9,6 +10,7 @@ import com.example.xportfolio.model.Address;
 import com.example.xportfolio.model.Contact;
 import com.example.xportfolio.model.Writer;
 import com.example.xportfolio.repository.AddressRepository;
+import com.example.xportfolio.repository.ContactRepository;
 import com.example.xportfolio.repository.WriterRepository;
 import com.example.xportfolio.util.JSONUtil;
 import lombok.RequiredArgsConstructor;
@@ -24,6 +26,7 @@ public class WriterServiceImpl implements WriterService{
 
     private final WriterRepository writerRepository;
     private final AddressRepository addressRepository;
+    private final ContactRepository contactRepository;
 
     @Override
     public Writer createOne(WriterCommand writerCommand) {
@@ -38,19 +41,28 @@ public class WriterServiceImpl implements WriterService{
 
     @Override
     public Writer getById(String writerId) {
-        final Writer writer = writerRepository.findById(writerId).get();
+        log.info("Begin fetching writer with id {}", writerId);
+        final Writer writer = writerRepository.findById(writerId).orElseThrow();
 
         return writer;
     }
 
     @Override
-    public Address addContactToWriter(String writerId, AddressCommand addressCommand) {
+    public Contact addContactToWriter(final String writerId, final ContactCommand contactCommand){
         final Writer writer = getById(writerId);
-        log.info("Begin creating and adding address with payload {} to writer with id {}", JSONUtil.toJSON(addressCommand), writer);
+        log.info("Begin creating and adding contact with payload {} to writer with id {}", JSONUtil.toJSON(contactCommand), writer);
+        final Contact contact = contactRepository.save(writer.addToContact(contactCommand));
 
-        final Address address = addressRepository.save(writer.addToAddress(addressCommand));
-        log.info("New address has been added successfully to writer with id {}", writer);
+        return contact;
+    }
+    @Override
+    public Address addAddressToContactWithWriterId(String writerId, AddressCommand addressCommand){
+        final Writer writer = getById(writerId);
+        final Contact contact = writer.getContact();
+
+        final Address address = addressRepository.save(contact.linkToAddress(addressCommand));
 
         return address;
+
     }
 }

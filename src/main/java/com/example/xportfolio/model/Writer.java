@@ -1,7 +1,9 @@
 package com.example.xportfolio.model;
 
 
+import com.example.xportfolio.command.AboutCommand;
 import com.example.xportfolio.command.AddressCommand;
+import com.example.xportfolio.command.ContactCommand;
 import com.example.xportfolio.command.WriterCommand;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -19,10 +21,10 @@ public class Writer extends AbstractEntity{
     private String lastName;
     private String pd_profile;
 
-    @OneToOne
+    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "writer")
     private Contact contact;
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private About about;
 
     @OneToMany(orphanRemoval = true, cascade = CascadeType.ALL, mappedBy = "writer")
@@ -36,7 +38,7 @@ public class Writer extends AbstractEntity{
     @OneToOne
     private Lang lang;
 
-    @OneToMany(mappedBy = "writer", orphanRemoval = true, cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "writer", cascade = CascadeType.ALL)
     @JsonIgnore
     private Set<Skills> skills;
 
@@ -49,10 +51,17 @@ public class Writer extends AbstractEntity{
 
         return writer;
     }
-    public Address addToAddress(final AddressCommand addressCommand){
-       final Address address = Address.createAddress(addressCommand);
-       address.linkToWriter(this);
+    public Contact addToContact(final ContactCommand contactCommand){
+       final Contact contact1 = Contact.createContact(contactCommand);
+       contact1.linkToWriter(this);
 
-       return address;
+       return contact1;
+    }
+    public About addAboutToWriter(final AboutCommand aboutCommand){
+        final About about1 = About.createAbout(aboutCommand);
+
+        about1.linkToWriter(this);
+
+        return about1;
     }
 }

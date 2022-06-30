@@ -1,6 +1,7 @@
 package com.example.xportfolio.service;
 
 import com.example.xportfolio.command.AddressCommand;
+import com.example.xportfolio.command.ContactCommand;
 import com.example.xportfolio.command.WriterCommand;
 import com.example.xportfolio.dto.WriterDto;
 import com.example.xportfolio.model.Address;
@@ -13,5 +14,6 @@ public interface WriterService {
     Writer createOne(WriterCommand writerCommand);
     Writer getById(String writerId);
 
-    Address addContactToWriter(String writerId, final AddressCommand addressCommand);
+    Contact addContactToWriter(String writerId, ContactCommand contactCommand);
+    public Address addAddressToContactWithWriterId(String writerId, AddressCommand addressCommand);
 }

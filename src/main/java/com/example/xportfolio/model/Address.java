@@ -15,8 +15,6 @@ public class Address extends AbstractEntity{
     private String city;
     private String country;
 
-    @OneToOne(mappedBy = "contact")
-    private Writer writer;
 
     public static Address createAddress(final AddressCommand addressCommand){
         final Address address = new Address();
@@ -26,8 +24,5 @@ public class Address extends AbstractEntity{
         address.country = addressCommand.getCountry();
 
         return address;
-    }
-    public void linkToWriter(Writer Writer){
-        this.writer = writer;
     }
 }
