@@ -13,27 +13,12 @@ import java.util.Set;
 
 @SpringBootApplication
 @EnableJpaAuditing
-public class XPortfolioApplication implements CommandLineRunner{
+public class XPortfolioApplication{
 
 
-    @Autowired
-    private ContactRepository contactRepository;
-    @Autowired
-    private WriterRepository writerRepository;
-
-    @Autowired
-    private SkillsRepository skillsRepository;
-
-    @Autowired
-    private AddressRepository addressRepository;
 
     public static void main(String[] args) {
         SpringApplication.run(XPortfolioApplication.class, args);
     }
 
-
-    @Override
-    public void run(String... args) throws Exception {
-
-    }
 }

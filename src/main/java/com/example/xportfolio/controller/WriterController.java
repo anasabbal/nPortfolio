@@ -2,21 +2,20 @@ package com.example.xportfolio.controller;
 
 
 
-import com.example.xportfolio.command.AddressCommand;
-import com.example.xportfolio.command.ContactCommand;
+import com.example.xportfolio.command.FormationCommand;
 import com.example.xportfolio.command.WriterCommand;
 import com.example.xportfolio.dto.WriterDto;
 import com.example.xportfolio.mapper.WriterMapper;
-import com.example.xportfolio.model.Address;
-import com.example.xportfolio.model.Contact;
 import com.example.xportfolio.model.Writer;
-import com.example.xportfolio.service.WriterService;
+import com.example.xportfolio.service.writer.WriterService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import static com.example.xportfolio.cons.ResourcePath.*;
+
 @RestController
-@RequestMapping("/v1/writer")
+@RequestMapping( V1+ WRITER)
 @RequiredArgsConstructor
 public class WriterController {
 
@@ -34,18 +33,6 @@ public class WriterController {
         final Writer writer = writerService.getById(writerId);
         return ResponseEntity.ok(writerMapper.toWriterDto(writer));
     }
-    @PostMapping("/{writerId}")
-    public ResponseEntity<Contact> addAddressToWrtier(@PathVariable("writerId") final String writerId,
-                                                      @RequestBody final ContactCommand contactCommand){
-        final Contact contact = writerService.addContactToWriter(writerId, contactCommand);
 
-        return ResponseEntity.ok(contact);
-    }
-    @PostMapping("/address/{writerId}")
-    public ResponseEntity<Address> addAddressToContactWithWriterId(@PathVariable("writerId") final String writerId,
-                                                                   @RequestBody final AddressCommand addressCommand){
-        final Address address = writerService.addAddressToContactWithWriterId(writerId, addressCommand);
 
-        return ResponseEntity.ok(address);
-    }
 }

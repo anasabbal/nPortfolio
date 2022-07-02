@@ -21,11 +21,11 @@ public class AboutServiceImpl implements AboutService{
     @Override
     public About createAbout(String writerId, AboutCommand aboutCommand) {
         log.info("Begin creating About with payload {}", JSONUtil.toJSON(aboutCommand));
+        final Writer writer = writerRepository.findById(writerId).get();
 
-        final Writer writer = writerRepository.findById(writerId).orElseThrow();
-        final About about = aboutRepository.save(writer.addAboutToWriter(aboutCommand));
-
-        return about;
+        final About about = About.createAbout(aboutCommand);
+        writer.linkToAbout(about);
+        return aboutRepository.save(about);
     }
 
     @Override

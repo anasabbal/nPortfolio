@@ -2,13 +2,16 @@ package com.example.xportfolio.model;
 
 
 import com.example.xportfolio.command.AddressCommand;
-import lombok.Data;
+import lombok.*;
 
 import javax.persistence.Entity;
 import javax.persistence.OneToOne;
 
 @Entity
-@Data
+@AllArgsConstructor
+@Getter
+@Setter
+@NoArgsConstructor
 public class Address extends AbstractEntity{
 
     private String street;

@@ -9,10 +9,10 @@ import com.example.xportfolio.service.about.AboutService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
+import static com.example.xportfolio.cons.ResourcePath.*;
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/v1/about")
+@RequestMapping(V1 + ABOUT)
 public class AboutController {
 
     private final AboutService aboutService;

@@ -2,7 +2,7 @@ package com.example.xportfolio.model;
 
 
 
-import lombok.Data;
+import lombok.*;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
@@ -10,7 +10,10 @@ import javax.persistence.FetchType;
 import javax.persistence.ManyToOne;
 
 @Entity
-@Data
+@AllArgsConstructor
+@Getter
+@Setter
+@NoArgsConstructor
 public class Skills extends AbstractEntity{
 
     private String name;

@@ -1,19 +1,22 @@
 package com.example.xportfolio.model;
 
 
-import com.example.xportfolio.command.AboutCommand;
-import com.example.xportfolio.command.AddressCommand;
-import com.example.xportfolio.command.ContactCommand;
-import com.example.xportfolio.command.WriterCommand;
+import com.example.xportfolio.command.*;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
 import javax.persistence.*;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @Entity
-@Data
+@AllArgsConstructor
+@Getter
+@Setter
 public class Writer extends AbstractEntity{
 
 
@@ -21,13 +24,13 @@ public class Writer extends AbstractEntity{
     private String lastName;
     private String pd_profile;
 
-    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "writer")
+    @OneToOne
     private Contact contact;
 
-    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToOne
     private About about;
 
-    @OneToMany(orphanRemoval = true, cascade = CascadeType.ALL, mappedBy = "writer")
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL,mappedBy = "writer")
     @JsonIgnore
     private Set<Formation> formations;
 
@@ -42,26 +45,32 @@ public class Writer extends AbstractEntity{
     @JsonIgnore
     private Set<Skills> skills;
 
+    public Writer() {
+
+    }
+
     public static Writer createOne(final WriterCommand writerCommand){
         final Writer writer = new Writer();
 
         writer.firstName = writerCommand.getFirstName();
         writer.lastName = writerCommand.getLastName();
         writer.pd_profile = writerCommand.getPd_profile();
-
+        //writer.formations = createFormation(writerCommand.getFormationCommands());
+        //writer.formations.forEach(formation -> formation.linkToWriter(writer));
         return writer;
     }
-    public Contact addToContact(final ContactCommand contactCommand){
-       final Contact contact1 = Contact.createContact(contactCommand);
-       contact1.linkToWriter(this);
 
-       return contact1;
+    public static Set<Formation> createFormation(final Set<FormationCommand> formationCommand){
+        return formationCommand.stream().map(Formation::createFormation).collect(Collectors.toSet());
     }
-    public About addAboutToWriter(final AboutCommand aboutCommand){
-        final About about1 = About.createAbout(aboutCommand);
+    public Formation addFormation(final FormationCommand formationCommand){
+        final Formation formation = Formation.createFormation(formationCommand);
 
-        about1.linkToWriter(this);
+        formation.linkToWriter(this);
 
-        return about1;
+        return formation;
+    }
+    public void linkToAbout(About about){
+        this.about = about;
     }
 }

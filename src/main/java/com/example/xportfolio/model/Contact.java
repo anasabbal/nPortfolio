@@ -4,7 +4,7 @@ package com.example.xportfolio.model;
 
 import com.example.xportfolio.command.AddressCommand;
 import com.example.xportfolio.command.ContactCommand;
-import lombok.Data;
+import lombok.*;
 import org.hibernate.type.StringNVarcharType;
 
 import javax.persistence.CascadeType;
@@ -12,18 +12,20 @@ import javax.persistence.Entity;
 import javax.persistence.OneToOne;
 
 @Entity
-@Data
+@AllArgsConstructor
+@Getter
+@Setter
+@NoArgsConstructor
 public class Contact extends AbstractEntity{
 
     @OneToOne(cascade = CascadeType.ALL)
     private Address address;
-
     private String email;
     private String phone;
     private String gmail_url;
     private String github_link;
 
-    @OneToOne(optional = false)
+    @OneToOne(mappedBy = "contact")
     private Writer writer;
 
 
@@ -35,6 +37,12 @@ public class Contact extends AbstractEntity{
         contact.github_link = contactCommand.getGithub_link();
 
         return contact;
+    }
+    public void updateContact(final ContactCommand contactCommand){
+        this.email = contactCommand.getEmail();
+        this.phone = contactCommand.getPhone();
+        this.gmail_url = contactCommand.getGmail_url();
+        this.github_link = contactCommand.getGithub_link();
     }
     public void linkToWriter(Writer writer){
         this.writer = writer;
