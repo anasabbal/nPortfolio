@@ -40,8 +40,8 @@ public class Writer extends AbstractEntity{
     @JsonIgnore
     private Set<Experience> experiences;
 
-    @OneToOne
-    private Lang lang;
+    @OneToMany(mappedBy = "writer", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private Set<Lang> lang;
 
     @OneToMany(mappedBy = "writer", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JsonIgnore
@@ -71,6 +71,13 @@ public class Writer extends AbstractEntity{
         formation.linkToWriter(this);
 
         return formation;
+    }
+    public Lang addLang(final LangCommand langCommand){
+        final Lang lang1 = Lang.createLang(langCommand);
+
+        lang1.linkToWriter(this);
+
+        return lang1;
     }
     public Skills addSkills(final SkillsCommand skillsCommand){
         final Skills skills1 = Skills.createSkills(skillsCommand);

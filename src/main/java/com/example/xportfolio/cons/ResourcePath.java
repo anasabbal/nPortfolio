@@ -8,4 +8,5 @@ public class ResourcePath {
     public final static String FORMATION = "/formation";
     public final static String ADDRESS = "/address";
     public final static String SKILLS = "/skills";
+    public final static String LANG = "/lang";
 }

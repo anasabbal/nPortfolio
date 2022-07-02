@@ -20,6 +20,6 @@ public class WriterDto {
     private AboutDto about;
     private Set<FormationDto> formations;
     private Set<ExperienceDto> experiences;
-    private LangDto lang;
+    private Set<LangDto> lang;
     private Set<SkillsDto> skills;
 }
