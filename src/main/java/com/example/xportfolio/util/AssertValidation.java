@@ -8,6 +8,8 @@ public interface AssertValidation {
     public static final String PASSWORD_PATTERN =
             "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#&()–[{}]:;',?/*~$^+=<>]).{8,20}$";
 
+    public static final String URL_GITHUB = "^(http(s?):\\/\\/)?(www\\.)?github\\.([a-z])+\\/([A-Za-z0-9]{1,})+\\/?$";
+
     static boolean isMobile(String value){
         // The number should be of 10 digits.
         // Creating a Pattern class object
@@ -29,6 +31,19 @@ public interface AssertValidation {
         String regex = "^[A-Za-z0-9+_.-]+@(.+)$";
         Pattern pattern = Pattern.compile(regex);
         Matcher matcher = pattern.matcher(email);
+
+        if(matcher.matches()){
+            return true;
+        }else{
+            throw new RuntimeException("");
+        }
+    }
+    static boolean isGithubUrl(String url){
+        if(url == null){
+            throw new IllegalArgumentException();
+        }
+        Pattern pattern = Pattern.compile(URL_GITHUB);
+        Matcher matcher = pattern.matcher(url);
 
         if(matcher.matches()){
             return true;
