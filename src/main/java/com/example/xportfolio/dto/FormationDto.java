@@ -10,6 +10,7 @@ import java.util.Date;
 @Getter
 @Setter
 public class FormationDto {
+    private String id;
     private String title;
     private String description;
     private Date begin_at;

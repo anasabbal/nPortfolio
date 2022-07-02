@@ -1,11 +1,9 @@
 package com.example.xportfolio.service.writer;
 
 
-import com.example.xportfolio.command.FormationCommand;
+
 import com.example.xportfolio.command.WriterCommand;
-import com.example.xportfolio.model.Formation;
 import com.example.xportfolio.model.Writer;
-import com.example.xportfolio.repository.FormationRepository;
 import com.example.xportfolio.repository.WriterRepository;
 import com.example.xportfolio.util.JSONUtil;
 import lombok.RequiredArgsConstructor;
@@ -37,5 +35,4 @@ public class WriterServiceImpl implements WriterService{
 
         return writer;
     }
-
 }

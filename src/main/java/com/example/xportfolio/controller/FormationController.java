@@ -22,7 +22,6 @@ public class FormationController {
     private final FormationMapper formationMapper;
 
 
-
     @GetMapping("/{formationId}")
     public ResponseEntity<FormationDto> getById(@PathVariable("formationId") String  formationId){
         final Formation formation = formationService.getOne(formationId);

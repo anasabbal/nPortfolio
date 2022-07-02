@@ -4,6 +4,7 @@ package com.example.xportfolio.model;
 
 import com.example.xportfolio.command.AddressCommand;
 import com.example.xportfolio.command.ContactCommand;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.*;
 import org.hibernate.type.StringNVarcharType;
 
@@ -25,9 +26,6 @@ public class Contact extends AbstractEntity{
     private String gmail_url;
     private String github_link;
 
-    @OneToOne(mappedBy = "contact")
-    private Writer writer;
-
 
     public static Contact createContact(final ContactCommand contactCommand){
         final Contact contact = new Contact();
@@ -43,9 +41,6 @@ public class Contact extends AbstractEntity{
         this.phone = contactCommand.getPhone();
         this.gmail_url = contactCommand.getGmail_url();
         this.github_link = contactCommand.getGithub_link();
-    }
-    public void linkToWriter(Writer writer){
-        this.writer = writer;
     }
     public Address linkToAddress(final AddressCommand addressCommand){
         final Address address1 = Address.createAddress(addressCommand);

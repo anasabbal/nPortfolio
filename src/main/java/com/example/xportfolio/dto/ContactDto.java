@@ -9,6 +9,7 @@ import org.mapstruct.Mapper;
 @Getter
 @Setter
 public class ContactDto {
+    private String id;
     private AddressDto address;
     private String email;
     private String phone;

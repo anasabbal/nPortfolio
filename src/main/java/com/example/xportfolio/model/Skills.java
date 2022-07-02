@@ -2,6 +2,8 @@ package com.example.xportfolio.model;
 
 
 
+import com.example.xportfolio.command.SkillsCommand;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.*;
 
 import javax.persistence.CascadeType;
@@ -19,10 +21,19 @@ public class Skills extends AbstractEntity{
     private String name;
     private String prct_master;
 
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @ManyToOne(optional = false)
     private Writer writer;
 
-    public void setWriter(Writer writer) {
+
+    public static Skills createSkills(final SkillsCommand skillsCommand){
+        final Skills skills = new Skills();
+        skills.name = skillsCommand.getName();
+        skills.prct_master = skillsCommand.getPrct_master();
+
+        return skills;
+    }
+
+    public void linkToWriter(Writer writer) {
         this.writer = writer;
     }
 }

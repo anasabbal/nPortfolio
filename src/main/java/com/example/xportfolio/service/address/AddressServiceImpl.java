@@ -17,6 +17,19 @@ public class AddressServiceImpl implements AddressService{
 
     private final AddressRepository addressRepository;
 
+    @Override
+    public Address findById(String addressId) {
+        log.info("Begin fetching address with id {}", addressId);
 
+        final Address address = addressRepository.findById(addressId).orElseThrow();
+        log.info("fetching address with payload {} Done!" , JSONUtil.toJSON(address));
+        return address;
+    }
+    @Override
+    public Address updateAddress(String addressId, AddressCommand addressCommand) {
+        final Address address = findById(addressId);
+        address.update(addressCommand);
 
+        return address;
+    }
 }

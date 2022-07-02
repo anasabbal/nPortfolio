@@ -28,4 +28,9 @@ public class Address extends AbstractEntity{
 
         return address;
     }
+    public void update(final AddressCommand addressCommand){
+        this.street = addressCommand.getStreet();
+        this.city = addressCommand.getCity();
+        this.country = addressCommand.getCountry();
+    }
 }

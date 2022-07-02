@@ -3,6 +3,7 @@ package com.example.xportfolio.model;
 
 import com.example.xportfolio.command.*;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -25,6 +26,7 @@ public class Writer extends AbstractEntity{
     private String pd_profile;
 
     @OneToOne
+    @JsonManagedReference
     private Contact contact;
 
     @OneToOne
@@ -41,7 +43,7 @@ public class Writer extends AbstractEntity{
     @OneToOne
     private Lang lang;
 
-    @OneToMany(mappedBy = "writer", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "writer", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JsonIgnore
     private Set<Skills> skills;
 
@@ -69,6 +71,13 @@ public class Writer extends AbstractEntity{
         formation.linkToWriter(this);
 
         return formation;
+    }
+    public Skills addSkills(final SkillsCommand skillsCommand){
+        final Skills skills1 = Skills.createSkills(skillsCommand);
+
+        skills1.linkToWriter(this);
+
+        return skills1;
     }
     public void linkToAbout(About about){
         this.about = about;
