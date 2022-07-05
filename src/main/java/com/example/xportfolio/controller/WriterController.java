@@ -41,4 +41,9 @@ public class WriterController {
 
         return ResponseEntity.ok(writerMapper.toWriterDto(writer));
     }
+    /*@GetMapping("/image/{writerId}")
+    public ResponseEntity<byte[]> getById(@PathVariable("writerId") final String writerId){
+        final byte[] bytes = writerService.getImage(writerId);
+        return ResponseEntity.ok(bytes);
+    }*/
 }

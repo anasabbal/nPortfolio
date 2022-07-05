@@ -16,5 +16,6 @@ public interface WriterService {
 
     Writer createOne(WriterCommand writerCommand);
     Writer getById(String writerId);
+    public byte[] getImage(String writerId);
     Writer uploadImage(String writerId, MultipartFile file);
 }

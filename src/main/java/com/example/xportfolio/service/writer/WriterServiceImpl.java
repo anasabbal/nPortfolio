@@ -4,22 +4,18 @@ package com.example.xportfolio.service.writer;
 
 import com.example.xportfolio.command.WriterCommand;
 import com.example.xportfolio.exception.BusinessException;
-import com.example.xportfolio.exception.ExceptionPayload;
 import com.example.xportfolio.exception.ExceptionPayloadFactory;
 import com.example.xportfolio.model.Writer;
 import com.example.xportfolio.repository.WriterRepository;
 import com.example.xportfolio.util.JSONUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.io.FileUtils;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.annotation.PostConstruct;
 import java.io.File;
 import java.io.IOException;
-import java.io.InputStream;
+import java.lang.reflect.Field;
 
 @Service
 @RequiredArgsConstructor
@@ -57,11 +53,21 @@ public class WriterServiceImpl implements WriterService{
         }
         return writerRepository.save(writer);
     }
+    @Override
+    public byte[] getImage(String writerId){
+        log.info("Start retrieving image from writer with  id '{}'", writerId);
 
-    @PostConstruct
+        final Writer writer = getById(writerId);
+
+        byte[] file = writer.getPd_profile();
+
+        return file;
+    }
+
+    /*@PostConstruct
     public void initPhotoProfile()throws IOException{
         log.info("loading Writer picture...");
         InputStream inputStream = WriterServiceImpl.class.getClassLoader().getResourceAsStream("images/anas.png");
         File logo = new File("src/main/resources/images/anas.png");
-    }
+    }*/
 }
