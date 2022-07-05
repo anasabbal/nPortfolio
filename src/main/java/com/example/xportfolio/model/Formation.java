@@ -38,6 +38,12 @@ public class Formation extends AbstractEntity{
         return formation;
     }
 
+    public void update(final FormationCommand formationCommand){
+        this.title = formationCommand.getTitle();
+        this.description = formationCommand.getDescription();
+        this.begin_at = formationCommand.getBegin_at();
+        this.end_at = formationCommand.getEnd_at();
+    }
     public void linkToWriter(Writer writer){
         this.writer = writer;
     }

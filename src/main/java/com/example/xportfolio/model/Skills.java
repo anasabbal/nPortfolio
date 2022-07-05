@@ -32,7 +32,10 @@ public class Skills extends AbstractEntity{
 
         return skills;
     }
-
+    public void update(final SkillsCommand skillsCommand){
+        this.name = skillsCommand.getName();
+        this.prct_master = skillsCommand.getPrct_master();
+    }
     public void linkToWriter(Writer writer) {
         this.writer = writer;
     }

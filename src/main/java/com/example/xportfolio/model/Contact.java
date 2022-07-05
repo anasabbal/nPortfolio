@@ -25,6 +25,7 @@ public class Contact extends AbstractEntity{
     private String phone;
     private String gmail_url;
     private String github_link;
+    private String password;
 
 
     public static Contact createContact(final ContactCommand contactCommand){

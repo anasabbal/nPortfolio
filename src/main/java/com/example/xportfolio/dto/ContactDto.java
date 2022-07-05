@@ -15,4 +15,5 @@ public class ContactDto {
     private String phone;
     private String gmail_url;
     private String github_link;
+    private String password;
 }
