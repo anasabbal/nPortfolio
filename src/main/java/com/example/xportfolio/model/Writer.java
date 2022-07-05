@@ -23,7 +23,9 @@ public class Writer extends AbstractEntity{
 
     private String firstName;
     private String lastName;
-    private String pd_profile;
+
+    @Lob
+    private byte[] pd_profile;
 
     @OneToOne
     @JsonManagedReference
@@ -56,9 +58,6 @@ public class Writer extends AbstractEntity{
 
         writer.firstName = writerCommand.getFirstName();
         writer.lastName = writerCommand.getLastName();
-        writer.pd_profile = writerCommand.getPd_profile();
-        //writer.formations = createFormation(writerCommand.getFormationCommands());
-        //writer.formations.forEach(formation -> formation.linkToWriter(writer));
         return writer;
     }
 

@@ -2,6 +2,8 @@ package com.example.xportfolio.service.lang;
 
 
 import com.example.xportfolio.command.LangCommand;
+import com.example.xportfolio.exception.BusinessException;
+import com.example.xportfolio.exception.ExceptionPayloadFactory;
 import com.example.xportfolio.model.Lang;
 import com.example.xportfolio.model.Writer;
 import com.example.xportfolio.repository.LangRepository;
@@ -23,7 +25,8 @@ public class LangServiceImpl implements LangService{
     @Override
     public Lang createOne(String writerId, LangCommand langCommand){
         log.info("Begin fetching writer with id {}", writerId);
-        final Writer writer = writerRepository.findById(writerId).orElseThrow();
+        final Writer writer = writerRepository.findById(writerId)
+                .orElseThrow(() -> new BusinessException(ExceptionPayloadFactory.WRITER_NOT_FOUND.get()));
 
         final Lang lang = langRepository.save(writer.addLang(langCommand));
 
@@ -33,7 +36,8 @@ public class LangServiceImpl implements LangService{
     @Override
     public Lang getById(String langId) {
         log.info("Begin fetching lang with id {}", langId);
-        final Lang lang = langRepository.findById(langId).orElseThrow();
+        final Lang lang = langRepository.findById(langId).
+                orElseThrow(() -> new BusinessException(ExceptionPayloadFactory.LANGUAGE_NOT_FOUND.get()));
 
         log.info("Fetching Lang with payload {}", JSONUtil.toJSON(lang));
         return lang;

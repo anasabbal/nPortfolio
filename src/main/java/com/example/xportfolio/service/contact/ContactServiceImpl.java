@@ -2,6 +2,8 @@ package com.example.xportfolio.service.contact;
 
 import com.example.xportfolio.command.AddressCommand;
 import com.example.xportfolio.command.ContactCommand;
+import com.example.xportfolio.exception.BusinessException;
+import com.example.xportfolio.exception.ExceptionPayloadFactory;
 import com.example.xportfolio.model.Address;
 import com.example.xportfolio.model.Contact;
 import com.example.xportfolio.model.Writer;
@@ -26,7 +28,9 @@ public class ContactServiceImpl implements ContactService{
 
     @Override
     public Contact addContactToWriter(final String writerId, final ContactCommand contactCommand){
-        final Writer writer = writerRepository.findById(writerId).get();
+        final Writer writer = writerRepository.findById(writerId)
+                .orElseThrow(() -> new BusinessException(ExceptionPayloadFactory.WRITER_NOT_FOUND.get()));
+
         log.info("Begin creating and adding contact with payload {} to writer with id {}", JSONUtil.toJSON(contactCommand), writer);
         final Contact contact = Contact.createContact(contactCommand);
         writer.setContact(contact);
@@ -35,7 +39,8 @@ public class ContactServiceImpl implements ContactService{
     }
     @Override
     public Address addAddressToContactWithWriterId(String writerId, AddressCommand addressCommand){
-        final Writer writer = writerRepository.findById(writerId).get();
+        final Writer writer = writerRepository.findById(writerId)
+                .orElseThrow(() -> new BusinessException(ExceptionPayloadFactory.WRITER_NOT_FOUND.get()));
         final Contact contact = writer.getContact();
 
         final Address address = addressRepository.save(contact.linkToAddress(addressCommand));
@@ -55,7 +60,8 @@ public class ContactServiceImpl implements ContactService{
     public Contact getById(String contactId) {
         log.info("Begin fetching contact with id {}", contactId);
 
-        final Contact contact = contactRepository.findById(contactId).get();
+        final Contact contact = contactRepository.findById(contactId).
+                orElseThrow(() -> new BusinessException(ExceptionPayloadFactory.CONTACT_NOT_FOUND.get()));
 
         return contact;
     }

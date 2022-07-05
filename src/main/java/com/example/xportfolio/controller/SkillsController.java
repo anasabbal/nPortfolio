@@ -20,7 +20,6 @@ public class SkillsController {
 
     private final SkillsService skillsService;
 
-
     @PostMapping("{writerId}")
     public ResponseEntity<String> addSkillsToWriter(@PathVariable("writerId") final String writerId,
                                                        @RequestBody final SkillsCommand skillsCommand){

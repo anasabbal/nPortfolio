@@ -3,12 +3,23 @@ package com.example.xportfolio.service.writer;
 
 
 import com.example.xportfolio.command.WriterCommand;
+import com.example.xportfolio.exception.BusinessException;
+import com.example.xportfolio.exception.ExceptionPayload;
+import com.example.xportfolio.exception.ExceptionPayloadFactory;
 import com.example.xportfolio.model.Writer;
 import com.example.xportfolio.repository.WriterRepository;
 import com.example.xportfolio.util.JSONUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.io.FileUtils;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.multipart.MultipartFile;
+
+import javax.annotation.PostConstruct;
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
 
 @Service
 @RequiredArgsConstructor
@@ -31,8 +42,26 @@ public class WriterServiceImpl implements WriterService{
     @Override
     public Writer getById(String writerId) {
         log.info("Begin fetching writer with id {}", writerId);
-        final Writer writer = writerRepository.findById(writerId).orElseThrow();
+        final Writer writer = writerRepository.findById(writerId)
+                .orElseThrow(() -> new BusinessException(ExceptionPayloadFactory.WRITER_NOT_FOUND.get()));
 
         return writer;
+    }
+    @Override
+    public Writer uploadImage(String writerId, MultipartFile file){
+        final Writer writer = getById(writerId);
+        try {
+            writer.setPd_profile(file.getBytes());
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        return writerRepository.save(writer);
+    }
+
+    @PostConstruct
+    public void initPhotoProfile()throws IOException{
+        log.info("loading Writer picture...");
+        InputStream inputStream = WriterServiceImpl.class.getClassLoader().getResourceAsStream("images/anas.png");
+        File logo = new File("src/main/resources/images/anas.png");
     }
 }
