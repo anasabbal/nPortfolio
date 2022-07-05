@@ -1,4 +1,8 @@
 spring:
+  security:
+    user:
+      name: admin
+      password: admin
   mvc:
     pathmatch:
       matching-strategy: ant_path_matcher
@@ -23,4 +27,5 @@ spring:
 server:
   servlet:
     context-path: /api
+
 
